@@ -202,3 +202,9 @@ Modify **main.js** to inject $firebaseAuth into the controller, and add this fun
     };
 
 and call this during the login() callback
+
+
+**ALSO**, add this to logout:
+
+    var fbAuth = $firebaseAuth(new Firebase("https://kiandra-chat.firebaseio.com/messages/"));
+    fbAuth.$unauth();
