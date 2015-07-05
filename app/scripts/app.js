@@ -15,7 +15,11 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'firebase',
+    'auth0',
+    'angular-storage',
+    'angular-jwt'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -32,4 +36,23 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .config(function (authProvider) {
+    authProvider.init({
+      domain: 'acloudguru.auth0.com',
+      clientID: 'wTh9Jaxc2fMnjLRytRtZmwa1AC4GxCeh'
+    });
+  })
+  .run(function(auth) {
+    // This hooks al auth events to check everything as soon as the app starts
+    auth.hookEvents();
+  })
+  .factory("chatMessages", ["$firebaseArray",
+  function($firebaseArray) {
+    // create a reference to the Firebase database where we will store our data
+    var ref = new  Firebase("https://kiandra-chat.firebaseio.com/messages/");
+
+    // this uses AngularFire to create the synchronized array
+    return $firebaseArray(ref);
+    }
+  ]);
